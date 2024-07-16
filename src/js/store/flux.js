@@ -16,6 +16,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
+			fetchToGetAllItems: async (items) => {
+
+				const store = getStore()
+
+				let page = 1
+				let thereIsMorePages = true
+				let arrItems = []
+
+				while (thereIsMorePages) {
+					let url = `https://swapi.dev/api/${items}/?page=${page}`
+					try {
+						const res = await fetch(url)
+						if (res.ok) {
+							const data = await res.json()
+							data.results.forEach(element => {
+								arrItems = [...arrItems, element]
+							});
+							if (data.next) {
+								page++
+								console.log(url)
+							}
+							else {
+								page = 1
+								thereIsMorePages = !thereIsMorePages
+							}
+
+							switch (items) {
+								case 'planets':
+
+									break;
+								case 'vehicles':
+									break;
+								case 'people':
+									break;
+								default:
+									console.log('')
+									break;
+							}
+						}
+
+					} catch (error) {
+						throw new Error(error);
+					}
+					console.log(arrItems)
+
+				}
+
+			},
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
