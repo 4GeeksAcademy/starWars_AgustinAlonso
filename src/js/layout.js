@@ -5,6 +5,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { Home } from "./views/home";
 import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
+import SeeMore from "./views/seeMore";
 
 //create your first component
 const Layout = () => {
@@ -20,6 +21,7 @@ const Layout = () => {
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
+						<Route path="/seemore/:items/:name" element={<SeeMore />} />
 					</Routes>
 				</ScrollToTop>
 			</BrowserRouter>

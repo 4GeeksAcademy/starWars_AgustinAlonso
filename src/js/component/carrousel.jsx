@@ -16,7 +16,7 @@ const Carousel = ({ items }) => {
     slidesToScroll: 2,
     autoplay: true,
     autoplaySpeed: 4000,
-    adaptiveHeight: true, // Desactiva el ajuste de altura automática
+    adaptiveHeight: true, 
   };
 
   if (items === "people") {
@@ -27,7 +27,7 @@ const Carousel = ({ items }) => {
           const url = `https://starwars-visualguide.com/assets/img/characters/${parseInt(
             partsUrl[5]
           )}.jpg`;
-          return <CardPeople elm={elm} idx={idx} url={url} items={items} />;
+          return <CardPeople key={idx} elm={elm} idx={idx} url={url} items={items} />;
         })}
       </Slider>
     );
@@ -37,7 +37,7 @@ const Carousel = ({ items }) => {
         {store.planets.map((elm, idx) => {
             const urlParts = elm.url.split('/')
           const url = `https://starwars-visualguide.com/assets/img/planets/${parseInt(urlParts[5])}.jpg`;
-          return <CardPlanet elm={elm} idx={idx} url={url} items={items} />;
+          return <CardPlanet key={idx} elm={elm} idx={idx} url={url} items={items} />;
         })}
       </Slider>
     );

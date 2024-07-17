@@ -3,10 +3,14 @@ import { Context } from "../store/appContext";
 
 import imgCharacters from "../../img/imgCharacters.png";
 import notFound from "../../img/notFound.png";
+import { useNavigate } from "react-router-dom";
 
 const CardPeople = ({ elm, idx, url, items }) => {
   const { store, actions } = useContext(Context);
   const [classHeart, setClassHeart] = useState("heart-outline");
+  const navigate = useNavigate()
+
+
 
   useEffect(() => {
     if (store.favorites.some((favorite) => favorite.name === elm.name)) {
@@ -24,6 +28,9 @@ const CardPeople = ({ elm, idx, url, items }) => {
       actions.addFavorite(items, idx);
     }
   };
+  const seeMore = (name, items) => {
+    navigate(`/seemore/${items}/${name}`)
+  }
 
   return (
     <div key={idx} className="d-flex justify-content-center">
@@ -50,7 +57,7 @@ const CardPeople = ({ elm, idx, url, items }) => {
             Height: <span className="text-light">{elm.height}</span>
           </h4>
           <div className="d-flex justify-content-between mt-auto">
-            <button className="btn btn-outline-light" type="button">
+            <button className="btn btn-outline-light" type="button" onClick={() => seeMore(elm.name, items)}>
               See more
             </button>
             <button

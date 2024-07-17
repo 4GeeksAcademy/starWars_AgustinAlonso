@@ -25,7 +25,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 							});
 							if (data.next) {
 								page++;
-								console.log(url);
 							} else {
 								page = 1;
 								thereIsMorePages = !thereIsMorePages;
@@ -46,7 +45,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(error);
 					}
 				}
-				console.log(store);
 			},
 
 			addFavorite: (items, index) => {
@@ -58,15 +56,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					newFavorite = store.planets[index];
 				}
 				setStore({ favorites: [...store.favorites, newFavorite] });
-				console.log(store.favorites);
 			},
 
 			removeFavorite: (name) => {
-				console.log(name);
 				const store = getStore();
 				setStore({ favorites: store.favorites.filter(elm => elm.name !== name) });
 				console.log(`el elemento con el name ${name} ha sido eliminado`);
-				console.log(store.favorites);
 			},
 
 			exampleFunction: () => {
