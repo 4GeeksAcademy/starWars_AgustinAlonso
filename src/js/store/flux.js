@@ -1,90 +1,76 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			people: [],
+			planets: [],
+			favorites: []
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
+			// Use getActions to call a function within a function
 			fetchToGetAllItems: async (items) => {
+				const store = getStore();
 
-				const store = getStore()
-
-				let page = 1
-				let thereIsMorePages = true
-				let arrItems = []
+				let page = 1;
+				let thereIsMorePages = true;
+				let arrItems = [];
 
 				while (thereIsMorePages) {
-					let url = `https://swapi.dev/api/${items}/?page=${page}`
+					let url = `https://swapi.dev/api/${items}/?page=${page}`;
 					try {
-						const res = await fetch(url)
+						const res = await fetch(url);
 						if (res.ok) {
-							const data = await res.json()
+							const data = await res.json();
 							data.results.forEach(element => {
-								arrItems = [...arrItems, element]
+								arrItems = [...arrItems, element];
 							});
 							if (data.next) {
-								page++
-								console.log(url)
-							}
-							else {
-								page = 1
-								thereIsMorePages = !thereIsMorePages
+								page++;
+								console.log(url);
+							} else {
+								page = 1;
+								thereIsMorePages = !thereIsMorePages;
 							}
 
 							switch (items) {
 								case 'planets':
-
-									break;
-								case 'vehicles':
+									setStore({ planets: arrItems });
 									break;
 								case 'people':
+									setStore({ people: arrItems });
 									break;
 								default:
-									console.log('')
 									break;
 							}
 						}
-
 					} catch (error) {
 						throw new Error(error);
 					}
-					console.log(arrItems)
-
 				}
-
+				console.log(store);
 			},
+
+			addFavorite: (items, index) => {
+				const store = getStore();
+				let newFavorite;
+				if (items === 'people') {
+					newFavorite = store.people[index];
+				} else {
+					newFavorite = store.planets[index];
+				}
+				setStore({ favorites: [...store.favorites, newFavorite] });
+				console.log(store.favorites);
+			},
+
+			removeFavorite: (name) => {
+				console.log(name);
+				const store = getStore();
+				setStore({ favorites: store.favorites.filter(elm => elm.name !== name) });
+				console.log(`el elemento con el name ${name} ha sido eliminado`);
+				console.log(store.favorites);
+			},
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};
